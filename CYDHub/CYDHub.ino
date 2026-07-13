@@ -1,18 +1,12 @@
 /*
   CYD Hub (Text Display)
 */
-#define BLYNK_TEMPLATE_ID "TMPL69_5WFYrO"
-#define BLYNK_TEMPLATE_NAME "SignedLanguageTranslator"
-#define BLYNK_AUTH_TOKEN "HHSUMesuPI3MHJkrmUubgP5zZFgbFajB"
 
 #include <esp_now.h>
 #include <WiFi.h>
 #include <WiFiClient.h>
-#include <BlynkSimpleEsp32.h>
 #include <TFT_eSPI.h>
 
-char ssid[] = "iPhone";
-char pass[] = "159951753357";
 char receivedMessage[32] = "";
 
 TFT_eSPI tft = TFT_eSPI();
@@ -22,7 +16,6 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
 
   memcpy(receivedMessage, incomingData, len);
   Serial.println(receivedMessage);
-  Blynk.virtualWrite(V0, receivedMessage);
   drawDynamic();
 }
 
@@ -62,10 +55,8 @@ void setup() {
   }
 
   esp_now_register_recv_cb(esp_now_recv_cb_t(OnDataRecv));
-
-  Blynk.begin(BLYNK_AUTH_TOKEN, ssid, pass);
 }
 
 void loop() {
-  Blynk.run();
+  
 }
